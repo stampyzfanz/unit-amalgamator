@@ -1,0 +1,21 @@
+[
+	["Time", "s", "base"],
+	["Length", "m", "base"],
+	["Mass", "kg", "base"],
+	["Current", "A", "base"],
+	["Temperature", "K", "base"],
+	["Amount of substance", "mol", "base"],
+	["Light", "cd", "base"],
+	["Angle", "rad", "m/m", "derived"],
+	["Solid angle", "sr", "m2/m2", "derived"],
+	["Frequency", "Hz", "s-1", "derived"],
+	["Force", "N", "kg m s-2", "derived"],
+	["Stress", "Pa", "kg m-1 s-2", "derived"],
+	["Energy", "J", "kg m2 s-2", "derived"],
+	["Power", "W", "kg m2 s-3", "derived"],
+	["Electric charge", "C", "A s", "derived"],
+	["Voltage", "V", "kg m2 s-3 A-1", "derived"],
+	["Capacitance", "F", "kg-1 m2 s-3 s4 A2", "derived"],
+	["Resistance", "Ω", "kg m2 s-3 A-2", "derived"],
+	["Conductance", "S", "kg-1 m2 s3 A2", "derived"]
+]

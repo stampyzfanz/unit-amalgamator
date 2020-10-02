@@ -1,0 +1,57 @@
+<DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	<title>Unit amalgamater</title>
+</head>
+<body onload="load()">
+	<div id="app">
+	<div id="title" style="background: #ff0000">
+		<p>Unit amalgamater</p>
+		<p>You have <span style="font-size: 200%">{{ player.units.length }}</span> units</p>
+		<p>v0.0.1</p>
+	</div>
+	<hr>
+	<div id="inventory" class="col right" style="background: purple;">
+		<table class="center" style="margin-t">
+			<tr v-for="(row, i) in player.unit_grid">
+				<td v-for="(unit, j) in player.unit_grid[i]">
+					<unit-place :unit="unit" location="inventory"></unit-place>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="fusion" class="col left" style="background: blue;">
+		<table id="crafting" class="center" style="margin-top: 50px">
+			<tr>
+				<td>
+					<unit-place :unit="slot1" location="fusion"></unit-place>
+				</td>
+				<td>
+					<div id="operation" style="background: #fffdd0;"></div>
+				</td>
+				<unit-place :unit="slot2" location="fusion"></unit-place>
+			</tr>
+			<tr>
+				<td></td>
+				<unit-place :unit="product" location="fusion" :style="[player.units.includes(product) ? {opacity:0.8} : {}]"></unit-place>
+				<td></td>
+			</tr>
+		</table>
+	</div>
+	<hr>
+
+	<div id="info" style="background: green;">
+		<p>test</p>
+		
+	</div>
+	</div>
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="library/vue.js"></script>
+
+	<script type="text/javascript" src="main.js" type="module"></script>
+	<script type="text/javascript" src="v.js"></script>
+</body>
+</html>
