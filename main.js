@@ -53,7 +53,6 @@ async function createVars() {
 			// the 2 is for max amount of segments, which is probably unnessessary,
 			// but will fix it if its eg s-11 (which would be crazy)
 			// if its just s then the number is assumed to be 1
-			console.log(base_units[i])
 			if (firstDigit == null) {
 				unit[3][base_units[i]] = 1;
 			} else {
@@ -76,7 +75,8 @@ async function createVars() {
 		"start_time": Date.now(),
 		"slot1": null,
 		"slot2": null,
-		"product": null
+		"product": null,
+		"operation": "X"
 	}
 }
 
@@ -111,8 +111,9 @@ function updatePlayerUnitGrid() {
 	}
 }
 
-function clickedUnit(unit, location) {
-	// if inventory clicked
+function clickedUnit(unit, location, slotnum) {
+	console.log(arguments)
+		// if inventory clicked
 	if (location == 'inventory') {
 		// add into slot 1 if its empty
 		if (player.slot1 == null) {
@@ -124,13 +125,27 @@ function clickedUnit(unit, location) {
 			// find product
 			findProduct(player.slot1, player.slot2);
 		}
+		// else fusion clicked
+	} else {
+		// remove from slot 1
+		if (slotnum == 'slot1') {
+			player.slot1 = null;
+			// or remove from slot 2
+		} else if (slotnum == "slot2") {
+			player.slot2 = null;
+			// remove product
+		} else {
+			if (!player.units.includes(player.product)) {
+				player.units.push(player.product);
+				player.product = null;
+				player.slot1 = null;
+				player.slot2 = null;
+
+				updatePlayerUnitGrid();
+			}
+		}
+
 	}
-
-
-	// else fusion clicked
-	// remove from slot 1
-	// or remove from slot 2
-	// remove product
 }
 
 function findProduct(a, b) {
@@ -143,13 +158,11 @@ function findProduct(a, b) {
 		product_base_units[base_unit] = (a[3][base_unit] || 0) + (b[3][base_unit] || 0);
 	}
 
-	console.log(union)
 	for (let unit of units) {
 		// fake way of determining equality of objs, why doesnt js just do this automatically
 		// I should use lodash
 		// debugger;
 		if (JSON.stringify(product_base_units) == JSON.stringify(unit[3])) {
-			console.log(unit)
 			player.product = unit;
 		}
 	}
