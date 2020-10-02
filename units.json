@@ -1,11 +1,11 @@
 [
-	["Time", "s", "base"],
-	["Length", "m", "base"],
-	["Mass", "kg", "base"],
-	["Current", "A", "base"],
-	["Temperature", "K", "base"],
-	["Amount of substance", "mol", "base"],
-	["Light", "cd", "base"],
+	["Time", "s", "s", "base"],
+	["Length", "m", "m", "base"],
+	["Mass", "kg", "kg", "base"],
+	["Current", "A", "A", "base"],
+	["Temperature", "K", "K", "base"],
+	["Amount of substance", "mol", "mol", "base"],
+	["Light", "cd", "cd", "base"],
 	["Angle", "rad", "m/m", "derived"],
 	["Solid angle", "sr", "m2/m2", "derived"],
 	["Frequency", "Hz", "s-1", "derived"],
@@ -17,5 +17,6 @@
 	["Voltage", "V", "kg m2 s-3 A-1", "derived"],
 	["Capacitance", "F", "kg-1 m2 s-3 s4 A2", "derived"],
 	["Resistance", "Ω", "kg m2 s-3 A-2", "derived"],
-	["Conductance", "S", "kg-1 m2 s3 A2", "derived"]
+	["Conductance", "S", "kg-1 m2 s3 A2", "derived"],
+	["Mua ha ha haa", "Ayy", "m2", "derived"]
 ]

@@ -1,11 +1,6 @@
-// let unit_grid = [];
 let units;
 let player;
 let new_player;
-
-let slot1 = null;
-let slot2 = null;
-let product = null;
 
 async function load() {
 	await createVars();
@@ -37,28 +32,36 @@ async function createVars() {
 
 	// make easily usable object of base units rather than the annoying (but compact) string
 	for (let unit of units) {
+		// debugger;
 		unit[3] = {};
 		// for every unit, turn the base unit str into a base unit obj such that
 		// kg m2 s-3 A-1 would become {kg:1, m:2, s:-3, A:-1}
 
+
 		// split str into arr
-		let base_units = unit[1].split(' ');
+		let base_units = unit[2].split(' ');
 		// split into letter and number
 		for (let i = 0; i < base_units.length; i++) {
+			if (unit[2].includes('/')) {
+				unit[3] = null;
+				continue;
+			}
+
 			// ie if the base unit is kg-2 this'll give -, the first number
-			let firstDigit = base_units[i].match(/ (\d|-) /);
+			let firstDigit = base_units[i].match(/(\d|-)/);
 			// eg in kg-2, itll give kg, 2. Just add the firstDigit to the latter and its split
 			// the 2 is for max amount of segments, which is probably unnessessary,
 			// but will fix it if its eg s-11 (which would be crazy)
 			// if its just s then the number is assumed to be 1
+			console.log(base_units[i])
 			if (firstDigit == null) {
 				unit[3][base_units[i]] = 1;
 			} else {
-				let segments = base_units.split(firstDigit, 2);
-				unit[3][segments[0]] = parseInt(firstDigit + segments[1]);
+				// debugger;
+				let segments = base_units[i].split(firstDigit[0], 2);
+				unit[3][segments[0]] = parseInt(firstDigit[0] + segments[1]);
 			}
 		}
-
 	}
 
 
@@ -71,11 +74,13 @@ async function createVars() {
 			units[2],
 		],
 		"start_time": Date.now(),
+		"slot1": null,
+		"slot2": null,
+		"product": null
 	}
 }
 
 function updatePlayerUnitGrid() {
-	console.log("player unit grid")
 	player.unit_grid = [];
 
 	// let cols = floor(inv width / (cell width + margin) + margin)
@@ -110,20 +115,15 @@ function clickedUnit(unit, location) {
 	// if inventory clicked
 	if (location == 'inventory') {
 		// add into slot 1 if its empty
-		if (slot1 == null) {
-			slot1 = unit;
+		if (player.slot1 == null) {
+			player.slot1 = unit;
 			// else move into slot 2 and draw the product if it exists
-		} else if (slot2 == null) {
-			slot2 == unit;
+		} else if (player.slot2 == null) {
+			player.slot2 = unit;
 
 			// find product
-			findProduct(slot1, slot2);
-
-			// make product greyed out if already created
+			findProduct(player.slot1, player.slot2);
 		}
-
-
-
 	}
 
 
@@ -134,19 +134,23 @@ function clickedUnit(unit, location) {
 }
 
 function findProduct(a, b) {
-	let a_keys = Object.keys(a);
-	let b_keys = Object.keys(b);
-	let product_base_units;
+
+	let a_keys = Object.keys(a[3]);
+	let b_keys = Object.keys(b[3]);
+	let product_base_units = {};
 	let union = [...new Set([...a_keys, ...b_keys])];
 	for (let base_unit of union) {
-		product_base_units[base_unit] = (a_keys[base_unit] || 0) + (a_keys[base_unit] || 0);
+		product_base_units[base_unit] = (a[3][base_unit] || 0) + (b[3][base_unit] || 0);
 	}
 
+	console.log(union)
 	for (let unit of units) {
 		// fake way of determining equality of objs, why doesnt js just do this automatically
-		// I should use lodash		
-		if (JSON.stringify(units[3]) == JSON.stringify(unit)) {
-			product = unit;
+		// I should use lodash
+		// debugger;
+		if (JSON.stringify(product_base_units) == JSON.stringify(unit[3])) {
+			console.log(unit)
+			player.product = unit;
 		}
 	}
 }

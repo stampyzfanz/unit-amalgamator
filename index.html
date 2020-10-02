@@ -24,20 +24,26 @@
 	</div>
 	<div id="fusion" class="col left" style="background: blue;">
 		<table id="crafting" class="center" style="margin-top: 50px">
-			<tr>
-				<td>
-					<unit-place :unit="slot1" location="fusion"></unit-place>
-				</td>
-				<td>
-					<div id="operation" style="background: #fffdd0;"></div>
-				</td>
-				<unit-place :unit="slot2" location="fusion"></unit-place>
-			</tr>
-			<tr>
-				<td></td>
-				<unit-place :unit="product" location="fusion" :style="[player.units.includes(product) ? {opacity:0.8} : {}]"></unit-place>
-				<td></td>
-			</tr>
+			<tbody>
+				<tr>
+					<td>
+						<unit-place :unit="player.slot1" location="fusion"></unit-place>
+					</td>
+					<td>
+						<div id="operation" style="font-size: 500%; text-align: center;">X</div>
+					</td>
+					<td>
+						<unit-place :unit="player.slot2" location="fusion"></unit-place>
+					</td>
+				</tr>
+				<tr>
+					<td style="font-size: 750%; text-align: center; vertical-align: middle;">=</td>
+					<td>
+						<unit-place :unit="player.product" location="fusion" :style="[player.units.includes(player.product) ? {opacity:0.8} : {}]"></unit-place>
+					</td>
+					<td></td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
 	<hr>

@@ -8,8 +8,8 @@ function loadVue() {
 		<button style="position: relative;"
 			class="box" 
 			:class="unit ? 'full' : 'empty'"
-			v-on:click="() => clickedUnit(unit, location)">
-			<div v-if="unit" style="position: absolute; right: 14%; top: 14%;"> {{ units.indexOf(unit) }} </div>
+			v-on:click="function() {clickedUnit(unit, location)}">
+			<div v-if="unit" style="position: absolute; right: 14%; top: 14%;"> {{ units.indexOf(unit)+1 }} </div>
 			<div v-if="unit" style="font-size: 300%">{{ Array.isArray(unit) ? unit[1] : "" }}</div>
 			<div v-if="unit" style="letter-spacing: 1px">{{ Array.isArray(unit) ? unit[0] : "" }}</div>
 		</button>
@@ -18,22 +18,17 @@ function loadVue() {
 			return {
 				player,
 				units,
-
 			};
 		},
 		methods: {
 			clickedUnit
 		}
-
 	});
 	app = new Vue({
 		el: "#app",
 		data: {
 			player,
 			units,
-			slot1,
-			slot2,
-			product
 		}
 	})
 }
