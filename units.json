@@ -6,6 +6,7 @@
 	["Temperature", "K", "K", "base"],
 	["Amount of substance", "mol", "mol", "base"],
 	["Light", "cd", "cd", "base"],
+	["Natural number", "1", "/", "derived"],
 	["Angle", "rad", "m/m", "derived"],
 	["Solid angle", "sr", "m2/m2", "derived"],
 	["Frequency", "Hz", "s-1", "derived"],
@@ -18,5 +19,7 @@
 	["Capacitance", "F", "kg-1 m2 s-3 s4 A2", "derived"],
 	["Resistance", "Ω", "kg m2 s-3 A-2", "derived"],
 	["Conductance", "S", "kg-1 m2 s3 A2", "derived"],
-	["Mua ha ha haa", "Ayy", "m2", "derived"]
+	["Velocity", "m/s", "m s-1", "derived"],
+	["Acceleration", "m/s<sup>2</sup>", "m s-2", "derived"],
+	["Jerk", "m/s<sup>3</sup>", "m s-3", "derived"]
 ]

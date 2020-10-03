@@ -1,3 +1,13 @@
+/*
+TODO:
+- Add more units
+- Remove colours
+- Make divs resizable
+- Add save/import
+- Add info tab
+- Push to github
+*/
+
 let units;
 let player;
 let new_player;
@@ -32,7 +42,6 @@ async function createVars() {
 
 	// make easily usable object of base units rather than the annoying (but compact) string
 	for (let unit of units) {
-		// debugger;
 		unit[3] = {};
 		// for every unit, turn the base unit str into a base unit obj such that
 		// kg m2 s-3 A-1 would become {kg:1, m:2, s:-3, A:-1}
@@ -56,7 +65,6 @@ async function createVars() {
 			if (firstDigit == null) {
 				unit[3][base_units[i]] = 1;
 			} else {
-				// debugger;
 				let segments = base_units[i].split(firstDigit[0], 2);
 				unit[3][segments[0]] = parseInt(firstDigit[0] + segments[1]);
 			}
@@ -72,6 +80,7 @@ async function createVars() {
 			units[1],
 			units[2],
 		],
+		"derived_unit_num": 0,
 		"start_time": Date.now(),
 		"slot1": null,
 		"slot2": null,
@@ -130,16 +139,25 @@ function clickedUnit(unit, location, slotnum) {
 		// remove from slot 1
 		if (slotnum == 'slot1') {
 			player.slot1 = null;
+			player.product = null;
 			// or remove from slot 2
 		} else if (slotnum == "slot2") {
 			player.slot2 = null;
+			player.product = null;
 			// remove product
 		} else {
-			if (!player.units.includes(player.product)) {
+			if (!player.units.includes(player.product) && player.slot1 && player.slot2) {
 				player.units.push(player.product);
+				player.derived_unit_num++;
 				player.product = null;
 				player.slot1 = null;
 				player.slot2 = null;
+
+				if (player.derived_unit_num % 3 == 0) {
+					// fancy formula to get 1 more base units
+					let base_unit_num = player.units.length - player.derived_unit_num;
+					player.units.push(units[base_unit_num]);
+				}
 
 				updatePlayerUnitGrid();
 			}
@@ -148,24 +166,81 @@ function clickedUnit(unit, location, slotnum) {
 	}
 }
 
+let debug = false;
+
 function findProduct(a, b) {
+
+
+	if (debug) {
+		debugger;
+	}
+
+	if (a[1] == "m" && b[2] == "m" && player.operation == '/') {
+		player.product = units[8];
+		return;
+	}
+	if ((a[0] == 'Area' && b[0] == 'Area' && player.operation == '/') ||
+		(a[1] == 'rad' && b[1] == 'rad' && player.operation == 'X')) {
+		player.product = units[9];
+		return;
+	}
+
+	// if its a natural number
+	if (a[3] == null) {
+		a[3] = {};
+	} else if (b[3] == null) {
+		b[3] = {};
+	}
 
 	let a_keys = Object.keys(a[3]);
 	let b_keys = Object.keys(b[3]);
 	let product_base_units = {};
 	let union = [...new Set([...a_keys, ...b_keys])];
 	for (let base_unit of union) {
-		product_base_units[base_unit] = (a[3][base_unit] || 0) + (b[3][base_unit] || 0);
+		// if multiplying, add the indexes
+		if (player.operation == 'X') {
+			var number = (a[3][base_unit] || 0) + (b[3][base_unit] || 0);
+		} else {
+			// if dividing, subtract the indices
+			var number = (a[3][base_unit] || 0) - (b[3][base_unit] || 0);
+		}
+		if (number != 0) {
+			product_base_units[base_unit] = number;
+		}
+	}
+
+	if (Object.keys(product_base_units) == 0) {
+		// if obj is empty
+		player.product = units[7];
 	}
 
 	for (let unit of units) {
 		// fake way of determining equality of objs, why doesnt js just do this automatically
 		// I should use lodash
-		// debugger;
-		if (JSON.stringify(product_base_units) == JSON.stringify(unit[3])) {
+		// and I need to sort them into alphabetical order because json stringify sorts them based on 
+		// the time of creation of each key-value pair
+
+		// if its dimensionless
+		if (unit[3] == null) {
+			continue;
+		}
+
+		if (JSON.stringify(product_base_units, Object.keys(product_base_units).sort()) ==
+			JSON.stringify(unit[3], Object.keys(unit[3]).sort())) {
 			player.product = unit;
+			return;
 		}
 	}
+}
+
+function swapOperation() {
+	if (player.operation == 'X') {
+		player.operation = '/';
+	} else {
+		player.operation = 'X';
+	}
+
+	if (player.slot1 && player.slot2) findProduct(player.slot1, player.slot2);
 }
 
 // export save

@@ -10,7 +10,7 @@ function loadVue() {
 			:class="unit ? 'full' : 'empty'"
 			v-on:click="function() {clickedUnit(unit, location, slotnum)}">
 			<div v-if="unit" style="position: absolute; right: 14%; top: 14%;"> {{ units.indexOf(unit)+1 }} </div>
-			<div v-if="unit" style="font-size: 300%">{{ Array.isArray(unit) ? unit[1] : "" }}</div>
+			<div v-if="unit" style="font-size: 300%" v-html="Array.isArray(unit) ? unit[1] : ''"></div>
 			<div v-if="unit" style="letter-spacing: 1px">{{ Array.isArray(unit) ? unit[0] : "" }}</div>
 		</button>
 		`,

@@ -30,22 +30,23 @@
 						<unit-place :unit="player.slot1" location="fusion" slotnum="slot1"></unit-place>
 					</td>
 					<td>
-						<div style="font-size: 500%; text-align: center;">X</div>
+						<div style="font-size: 500%; text-align: center; user-select: none; font-family: sans-serif;" onclick="swapOperation()">{{ player.operation }}</div>
 					</td>
 					<td>
 						<unit-place :unit="player.slot2" location="fusion" slotnum="slot2"></unit-place>
 					</td>
 				</tr>
 				<tr>
-					<td style="font-size: 750%; text-align: center; vertical-align: middle;">=</td>
+					<td style="font-size: 750%; text-align: center; vertical-align: middle; font-family: sans-serif;">=</td>
 					<td>
-						<unit-place :unit="player.product" location="fusion" :style="[player.units.includes(player.product) ? {opacity:0.8} : {}]" slotnum="product"></unit-place>
+						<unit-place :unit="player.product" location="fusion" :style="[player.units.includes(player.product) ? {opacity:0.5} : {}]" slotnum="product"></unit-place>
 					</td>
 					<td></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+
 	<hr>
 
 	<div id="info" style="background: green;">
