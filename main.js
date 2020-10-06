@@ -1,9 +1,7 @@
 /*
 TODO:
 - Add more units
-- Remove colours
-- Make divs resizable
-- Add save/import
+- Add savegame
 - Add info tab
 - Push to github
 */
@@ -48,6 +46,7 @@ async function createVars() {
 
 
 		// split str into arr
+		if (unit[2] == undefined) debugger
 		let base_units = unit[2].split(' ');
 		// split into letter and number
 		for (let i = 0; i < base_units.length; i++) {
@@ -156,7 +155,9 @@ function clickedUnit(unit, location, slotnum) {
 				if (player.derived_unit_num % 3 == 0) {
 					// fancy formula to get 1 more base units
 					let base_unit_num = player.units.length - player.derived_unit_num;
-					player.units.push(units[base_unit_num]);
+					if (base_unit_num < 7) {
+						player.units.push(units[base_unit_num]);
+					}
 				}
 
 				updatePlayerUnitGrid();
@@ -181,9 +182,17 @@ function findProduct(a, b) {
 	}
 	if ((a[0] == 'Area' && b[0] == 'Area' && player.operation == '/') ||
 		(a[1] == 'rad' && b[1] == 'rad' && player.operation == 'X')) {
-		player.product = units[9];
+		player.product = units[9]; // solid angle
 		return;
 	}
+	if (a[1] == 'rad' && b[1] == 's' && player.operation == '/') {
+		player.product = units[44]; // angular velocity
+	}
+	if (a[0] == 'Angular velocity' && b[1] == 's' && player.operation == '/') {
+		player.product = units[44]; // angular acceleration
+	}
+
+
 
 	// if its a natural number
 	if (a[3] == null) {
@@ -243,5 +252,71 @@ function swapOperation() {
 	if (player.slot1 && player.slot2) findProduct(player.slot1, player.slot2);
 }
 
-// export save
-// import save
+// save
+
+// copy paste to resize the divs
+interact('#fusion')
+	.resizable({
+		edges: {
+			right: true,
+		},
+
+		listeners: {
+			move(event) {
+				var target = event.target
+				var x = (parseFloat(target.getAttribute('data-x')) || 0)
+				var y = (parseFloat(target.getAttribute('data-y')) || 0)
+
+				// update the element's style
+				target.style.width = event.rect.width + 'px'
+
+				target.setAttribute('data-x', x);
+
+				// https://css-tricks.com/scaled-proportional-blocks-with-css-and-javascript/
+				// https://stackoverflow.com/questions/9333379/check-if-an-elements-content-is-overflowing
+				// let div = document.querySelector("#fusion");
+				// let overflow = div.scrollWidth > div.clientWidth;
+
+				// if (overflow) {
+				// 	let content = document.querySelector("#crafting");
+				// 	// debugger;
+				// 	scale = parseInt(window.getComputedStyle(div).width) /
+				// 		parseInt(window.getComputedStyle(content).width);
+				// 	console.log(scale)
+				// 	content.style.transform = `scale(${scale})`;
+				// }
+				let div = document.querySelector("#fusion");
+				let content = document.querySelector("#crafting");
+				// debugger;
+				// max 1, so it doesnt get any bigger than default
+				scale = Math.min(
+					parseInt(window.getComputedStyle(div).width) /
+					parseInt(window.getComputedStyle(content).width),
+					1
+				);
+				content.style.transform = `translate(-50%, 0) scale(${scale})`;
+
+				// resize inv
+				let inventory = document.querySelector("#inventory");
+				// make inventory the full size minus the fusion panel
+				inventory.style.width = parseInt(window.getComputedStyle(document.body).width) -
+					parseInt(div.style.width) - 5;
+				// minus 15 just for padding and margins and things just in case
+			}
+		},
+		modifiers: [
+			// keep the edges inside the parent
+			interact.modifiers.restrictEdges({
+				outer: 'parent'
+			}),
+
+			// minimum size
+			interact.modifiers.restrictSize({
+				min: {
+					width: 100,
+				}
+			})
+		],
+
+		inertia: true
+	})

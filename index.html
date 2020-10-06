@@ -3,41 +3,46 @@
 <head>
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<meta content="utf-8" http-equiv="encoding">
+	<!-- <link rel="icon" href="favicon.ico" type="image/png"> -->
+	<link rel="icon" href="favicon48.ico" type="image/png">
 	<title>Unit amalgamater</title>
 </head>
 <body onload="load()">
 	<div id="app">
-	<div id="title" style="background: #ff0000">
+	<div id="title">
 		<p>Unit amalgamater</p>
 		<p>You have <span style="font-size: 200%">{{ player.units.length }}</span> units</p>
-		<p>v0.0.1</p>
+		<p>v1.0.0</p>
 	</div>
 	<hr>
-	<div id="inventory" class="col right" style="background: purple;">
-		<table class="center" style="margin-t">
+	<div id="inventory" class="col right" style="width: 49.5%; box-sizing: border-box; background: #f8d8ff">
+		<table class="center">
 			<tr v-for="(row, i) in player.unit_grid">
 				<td v-for="(unit, j) in player.unit_grid[i]">
-					<unit-place :unit="unit" location="inventory"></unit-place>
+					<transition name="fade" tag="div">
+						<unit-place :unit="unit" location="inventory"></unit-place>
+  				</transition>
 				</td>
 			</tr>
 		</table>
 	</div>
-	<div id="fusion" class="col left" style="background: blue;">
-		<table id="crafting" class="center" style="margin-top: 50px">
+	<div id="fusion" class="col left" style="width: 49.5%; background: #d8f8ff">
+		<!-- its automatically centered because of css sourcery so i dont need to center -->
+		<table id="crafting" style="margin-top: 50px">
 			<tbody>
 				<tr>
 					<td>
 						<unit-place :unit="player.slot1" location="fusion" slotnum="slot1"></unit-place>
 					</td>
 					<td>
-						<div style="font-size: 500%; text-align: center; user-select: none; font-family: sans-serif;" onclick="swapOperation()">{{ player.operation }}</div>
+						<div style="font-size: 500%; text-align: center; user-select: none; font-family: sans-serif;" onclick="swapOperation()" id="operator">{{ player.operation }}</div>
 					</td>
 					<td>
 						<unit-place :unit="player.slot2" location="fusion" slotnum="slot2"></unit-place>
 					</td>
 				</tr>
 				<tr>
-					<td style="font-size: 750%; text-align: center; vertical-align: middle; font-family: sans-serif;">=</td>
+					<td style="font-size: 750%; text-align: center; vertical-align: middle; font-family: sans-serif; user-select: none;">=</td>
 					<td>
 						<unit-place :unit="player.product" location="fusion" :style="[player.units.includes(player.product) ? {opacity:0.5} : {}]" slotnum="product"></unit-place>
 					</td>
@@ -58,6 +63,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="library/vue.js"></script>
 
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 	<script type="text/javascript" src="main.js" type="module"></script>
 	<script type="text/javascript" src="v.js"></script>
 </body>
