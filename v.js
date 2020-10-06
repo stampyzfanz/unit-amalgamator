@@ -29,6 +29,13 @@ function loadVue() {
 		data: {
 			player,
 			units,
+		},
+		watch: {
+			player: function(val) {
+				try {
+					localStorage.setItem("player", JSON.stringify(val));
+				} catch (err) {}; // save game
+			}
 		}
 	})
 }

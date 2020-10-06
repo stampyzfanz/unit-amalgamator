@@ -1,9 +1,10 @@
 /*
 TODO:
 - Add more units
-- Add savegame
-- Add info tab
-- Push to github
+- Fix info tab
+- Load quicker
+- Vue production mode
+- Does favicon work on github pages?
 */
 
 let units;
@@ -15,9 +16,13 @@ async function load() {
 
 	// try to load from local storage
 	// if it doesnt work make new player
-	player = {
-		...new_player
-	};
+	try {
+		player = JSON.parse(localStorage.getItem("player"));
+	} catch (err) {
+		player = {
+			...new_player
+		};
+	}
 	updatePlayerUnitGrid();
 
 	// offline progress if its old
@@ -117,6 +122,8 @@ function updatePlayerUnitGrid() {
 			}
 		}
 	}
+
+
 }
 
 function clickedUnit(unit, location, slotnum) {
@@ -251,8 +258,6 @@ function swapOperation() {
 
 	if (player.slot1 && player.slot2) findProduct(player.slot1, player.slot2);
 }
-
-// save
 
 // copy paste to resize the divs
 interact('#fusion')
