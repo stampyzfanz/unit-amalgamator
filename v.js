@@ -6,6 +6,7 @@ function loadVue() {
 		props: ["unit", "location", "slotnum"],
 		template: `
 		<button style="position: relative;"
+			aria-label="move"
 			class="box" 
 			:class="unit ? 'full' : 'empty'"
 			v-on:click="function() {clickedUnit(unit, location, slotnum)}">
@@ -14,7 +15,7 @@ function loadVue() {
 			<div v-if="unit" style="letter-spacing: 1px">{{ Array.isArray(unit) ? unit[0] : "" }}</div>
 		</button>
 		`,
-		data: function() {
+		data: function () {
 			return {
 				player,
 				units,
@@ -31,7 +32,7 @@ function loadVue() {
 			units,
 		},
 		watch: {
-			player: function(val) {
+			player: function (val) {
 				try {
 					localStorage.setItem("player", JSON.stringify(val));
 				} catch (err) {}; // save game

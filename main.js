@@ -1,10 +1,6 @@
 /*
 TODO:
 - Add more units
-- Fix info tab
-- Load quicker
-- Vue production mode
-- Does favicon work on github pages?
 */
 
 let units;
