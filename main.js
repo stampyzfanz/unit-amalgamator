@@ -16,16 +16,12 @@ async function load() {
 
 	// try to load from local storage
 	// if it doesnt work make new player
-	try {
-		player = JSON.parse(localStorage.getItem("player"));
-	} catch (err) {
+	if (player = JSON.parse(localStorage.getItem("player")) == null) {
 		player = {
 			...new_player
 		};
 	}
 	updatePlayerUnitGrid();
-
-	// offline progress if its old
 
 	loadVue();
 
@@ -127,12 +123,17 @@ function updatePlayerUnitGrid() {
 }
 
 function clickedUnit(unit, location, slotnum) {
-	console.log(arguments)
-		// if inventory clicked
+	// if inventory clicked
 	if (location == 'inventory') {
 		// add into slot 1 if its empty
 		if (player.slot1 == null) {
 			player.slot1 = unit;
+
+			// if theres a unit in the slot 2, draw the product
+			if (player.slot2 != null) {
+				findProduct(player.slot1, player.slot2);
+			}
+
 			// else move into slot 2 and draw the product if it exists
 		} else if (player.slot2 == null) {
 			player.slot2 = unit;
