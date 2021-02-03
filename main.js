@@ -12,7 +12,7 @@ async function load() {
 
 	// try to load from local storage
 	// if it doesnt work make new player
-	if (player = JSON.parse(localStorage.getItem("player")) == null) {
+	if (player = JSON.parse(localStorage.getItem("unit-savegame")) == null) {
 		player = {
 			...new_player
 		};
@@ -28,6 +28,10 @@ async function load() {
 		}
 	});
 	ro.observe(document.querySelector('#inventory'));
+}
+
+function save() {
+	localStorage.setItem("unit-savegame", JSON.stringify(val));
 }
 
 async function createVars() {
@@ -164,6 +168,7 @@ function clickedUnit(unit, location, slotnum) {
 					}
 				}
 
+				save()
 				updatePlayerUnitGrid();
 			}
 		}

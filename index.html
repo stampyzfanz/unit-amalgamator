@@ -22,7 +22,7 @@
 			<tr v-for="(row, i) in player.unit_grid">
 				<td v-for="(unit, j) in player.unit_grid[i]">
 					<transition name="fade" tag="div">
-						<unit-place :unit="unit" location="inventory"></unit-place>
+						<unit-place :unit="unit" location="inventory" aria-label="Move to fusion section"></unit-place>
   				</transition>
 				</td>
 			</tr>
@@ -34,19 +34,19 @@
 			<tbody>
 				<tr>
 					<td>
-						<unit-place :unit="player.slot1" location="fusion" slotnum="slot1"></unit-place>
+						<unit-place :unit="player.slot1" location="fusion" slotnum="slot1" aria-label="Move back to inventory"></unit-place>
 					</td>
 					<td>
 						<div style="font-size: 500%; text-align: center; user-select: none; font-family: sans-serif;" onclick="swapOperation()" id="operator">{{ player.operation }}</div>
 					</td>
 					<td>
-						<unit-place :unit="player.slot2" location="fusion" slotnum="slot2"></unit-place>
+						<unit-place :unit="player.slot2" location="fusion" slotnum="slot2" aria-label="Move back to inventory"></unit-place>
 					</td>
 				</tr>
 				<tr>
 					<td style="font-size: 750%; text-align: center; vertical-align: middle; font-family: sans-serif; user-select: none;">=</td>
 					<td>
-						<unit-place :unit="player.product" location="fusion" :style="[player.units.includes(player.product) ? {opacity:0.5} : {}]" slotnum="product"></unit-place>
+						<unit-place :unit="player.product" location="fusion" :style="[player.units.includes(player.product) ? {opacity:0.5} : {}]" aria-label="Move product unit to inventory" slotnum="product"></unit-place>
 					</td>
 					<td></td>
 				</tr>
