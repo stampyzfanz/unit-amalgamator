@@ -31,7 +31,7 @@ async function load() {
 }
 
 function save() {
-	localStorage.setItem("unit-savegame", JSON.stringify(val));
+	localStorage.setItem("unit-savegame", JSON.stringify(player));
 }
 
 async function createVars() {
