@@ -12,7 +12,7 @@ async function load() {
 
 	// try to load from local storage
 	// if it doesnt work make new player
-	if (player = JSON.parse(localStorage.getItem("unit-savegame")) == null) {
+	if ((player = JSON.parse(localStorage.getItem("unit-savegame"))) == null) {
 		player = {
 			...new_player
 		};
