@@ -111,7 +111,7 @@ function updatePlayerUnitGrid() {
 			}
 
 			// if current unit is in player's units
-			if (player.units.includes(units[index])) {
+			if (player.units.map(v => v[0]).includes(units[index][0])) {
 				player.unit_grid[j][i] = units[index];
 			} else {
 				player.unit_grid[j][i] = null;
