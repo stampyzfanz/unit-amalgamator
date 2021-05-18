@@ -17,17 +17,7 @@ async function load() {
 			...new_player
 		};
 	}
-	updatePlayerUnitGrid();
-
 	loadVue();
-
-	// update the grid when the inventory is resized
-	const ro = new ResizeObserver(entries => {
-		for (let entry of entries) {
-			updatePlayerUnitGrid();
-		}
-	});
-	ro.observe(document.querySelector('#inventory'));
 }
 
 function save() {
@@ -79,6 +69,7 @@ async function createVars() {
 			units[0],
 			units[1],
 			units[2],
+			...Array(units.length - 3).fill(null)
 		],
 		"derived_unit_num": 0,
 		"start_time": Date.now(),
@@ -87,39 +78,6 @@ async function createVars() {
 		"product": null,
 		"operation": "X"
 	}
-}
-
-function updatePlayerUnitGrid() {
-	player.unit_grid = [];
-
-	// let cols = floor(inv width / (cell width + margin) + margin)
-	let invWidth = document.getElementById('inventory').offsetWidth;
-	let cellWidth = 100;
-	// it was hardcoded in css
-
-	// for square
-	// let cols = Math.floor(Math.sqrt(units.length)); 
-	// for dyanmic size
-	let cols = Math.floor(invWidth / (cellWidth)) - 1;
-	let rows = Math.ceil(units.length / cols);
-	for (let j = 0; j < rows; j++) {
-		player.unit_grid[j] = [];
-		for (let i = 0; i < cols; i++) {
-			let index = i + j * cols;
-			if (index >= units.length) {
-				break;
-			}
-
-			// if current unit is in player's units
-			if (player.units.map(v => v[0]).includes(units[index][0])) {
-				player.unit_grid[j][i] = units[index];
-			} else {
-				player.unit_grid[j][i] = null;
-			}
-		}
-	}
-
-
 }
 
 function clickedUnit(unit, location, slotnum) {
@@ -153,8 +111,8 @@ function clickedUnit(unit, location, slotnum) {
 			player.product = null;
 			// remove product
 		} else {
-			if (!player.units.includes(player.product) && player.slot1 && player.slot2) {
-				player.units.push(player.product);
+			if (!player.units.map(u => !u || u[0]).includes(player.product[0]) && player.slot1 && player.slot2) {
+				player.units[units.map(u => u[0]).indexOf(player.product[0])] = player.product;
 				player.derived_unit_num++;
 				player.product = null;
 				player.slot1 = null;
@@ -165,11 +123,11 @@ function clickedUnit(unit, location, slotnum) {
 					let base_unit_num = player.units.length - player.derived_unit_num;
 					if (base_unit_num < 7) {
 						player.units.push(units[base_unit_num]);
+						player.units[units.map(u => u[0]).indexOf(units[base_unit_num][0])] = units(base_unit_num);
 					}
 				}
 
 				save()
-				updatePlayerUnitGrid();
 			}
 		}
 
