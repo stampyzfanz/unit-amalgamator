@@ -25,7 +25,7 @@
 	["Illuminance", "lx", "cd sr m-2"],
 	["Radionuclide specific activity", "<i>a</i>", "s-1 kg-1"],
 	["Kerma", "Gy", "m2 s-2"],
-	["Catalytic activity", "katal", "mol -1"],
+	["Catalytic activity", "kat", "mol -1"],
 	["Area", "<i>A</i>", "m2"],
 	["Volume", "<i>V</i>", "m3"],
 	["Velocity", "<i>v</i>", "m s-1"],

@@ -13,14 +13,14 @@
 	<div id="app">
 	<div id="title">
 		<p>Unit amalgamater</p>
-		<p>You have <span style="font-size: 200%">{{ player.units.length }}</span> units</p>
+		<p>You have <span style="font-size: 200%">{{ player.units.filter(u => u && u[0]).length }}</span> units</p>
 		<p>v1.0.0</p>
 	</div>
 	<hr>
-	<div id="inventory" class="col right" style="width: 49.5%; box-sizing: border-box; background: #f8d8ff">
-		<div>
+	<div id="inventory" class="col right" style="width: 49.5%; background: #f8d8ff">
+		<div id="inventoryWrapper" style="margin-left: 15px; margin-right: 15px;">
 			<transition name="fade" tag="div" v-for="(unit, i) in player.units" :key="i">
-				<unit-place :unit="unit" location="inventory" aria-label="Move to fusion section"></unit-place>
+				<unit-place :unit="unit" location="inventory" aria-label="Move to fusion section" class="invBox"></unit-place>
   			</transition>
 		</div>
 	</div>

@@ -120,10 +120,10 @@ function clickedUnit(unit, location, slotnum) {
 
 				if (player.derived_unit_num % 3 == 0) {
 					// fancy formula to get 1 more base units
-					let base_unit_num = player.units.length - player.derived_unit_num;
+					let base_unit_num = player.units.filter(u => u && u[0]).length - player.derived_unit_num;
 					if (base_unit_num < 7) {
-						player.units.push(units[base_unit_num]);
-						player.units[units.map(u => u[0]).indexOf(units[base_unit_num][0])] = units(base_unit_num);
+						// player.units.push(units[base_unit_num]);
+						player.units[units.map(u => u[0]).indexOf(units[base_unit_num][0])] = units[base_unit_num];
 					}
 				}
 
@@ -262,10 +262,12 @@ interact('#fusion')
 				content.style.transform = `translate(-50%, 0) scale(${scale})`;
 
 				// resize inv
+				let width = parseInt(window.getComputedStyle(document.body).width);
 				let inventory = document.querySelector("#inventory");
 				// make inventory the full size minus the fusion panel
-				inventory.style.width = parseInt(window.getComputedStyle(document.body).width) -
-					parseInt(div.style.width) - 5;
+				inventory.style.width = (((width) - parseInt(div.style.width) - 5) / width * 100) + "%";
+				console.log((((width) - parseInt(div.style.width) - 5) / width * 100) + "%");
+
 				// minus 15 just for padding and margins and things just in case
 			}
 		},
@@ -279,6 +281,9 @@ interact('#fusion')
 			interact.modifiers.restrictSize({
 				min: {
 					width: 100,
+				},
+				max: {
+					width: parseInt(window.getComputedStyle(document.body).width) - 150,
 				}
 			})
 		],

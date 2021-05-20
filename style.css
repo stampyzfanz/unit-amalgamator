@@ -49,6 +49,9 @@
     border-color: rgba(255, 255, 255, 0.125) rgba(0, 0, 0, 0.25) rgba(0, 0, 0, 0.25) rgba(255, 255, 255, 0.125);
 
     transition: all 1s;
+
+    justify-content: center;
+    align-items: center;
 }
 
 .fade-enter-active,
@@ -110,4 +113,14 @@ button:focus {
 /* || Typography */
 p {
     text-align: center;
+}
+
+#inventoryWrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 107px);
+    justify-content: center;
+}
+
+#inventory .box {
+    margin-top: 7px;
 }
