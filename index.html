@@ -7,24 +7,25 @@
 	<meta name="description" content="An alchemy style game where you multiply and divide primary SI units in order to collect them all">
 	<!-- <link rel="icon" href="favicon.ico" type="image/png"> -->
 	<link rel="icon" href="favicon48.ico?" type="image/png">
-	<title>Unit amalgamater</title>
+	<title>Unit amalgamator</title>
 </head>
-<body onload="load()">
+<body onload="load()" style="background-color: #f4ffff;">
+	<div style="position: fixed; opacity: 0;" id="widthTester">tester</div>
+
 	<div id="app">
 	<div id="title">
-		<p>Unit amalgamater</p>
+		<p>Unit amalgamator</p>
 		<p>You have <span style="font-size: 200%">{{ player.units.filter(u => u && u[0]).length }}</span> units</p>
 		<p>v1.0.0</p>
 	</div>
-	<hr>
-	<div id="inventory" class="col right" style="width: 49.5%; background: #f8d8ff">
+	<div id="inventory" class="col right" style="width: 49.5%;">
 		<div id="inventoryWrapper" style="margin-left: 15px; margin-right: 15px;">
 			<transition name="fade" tag="div" v-for="(unit, i) in player.units" :key="i">
 				<unit-place :unit="unit" location="inventory" aria-label="Move to fusion section" class="invBox"></unit-place>
   			</transition>
 		</div>
 	</div>
-	<div id="fusion" class="col left" style="width: 49.5%; background: #d8f8ff">
+	<div id="fusion" class="col left" style="width: 49.5%; border-right: 1px solid #ccc;">
 		<!-- its automatically centered because of css sourcery so i dont need to center -->
 		<table id="crafting" style="margin-top: 50px">
 			<tbody>
@@ -50,7 +51,6 @@
 		</table>
 	</div>
 
-	<hr>
 
 	<!-- <div id="info" style="background: green;">
 		<p>test</p>

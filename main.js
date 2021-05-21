@@ -219,6 +219,18 @@ function swapOperation() {
 	if (player.slot1 && player.slot2) findProduct(player.slot1, player.slot2);
 }
 
+function unitAbbrevSize(text) {
+	debugger;
+	let tester = document.getElementById('widthTester');
+	tester.innerHTML = text;
+	let width = tester.offsetWidth;
+	// max length in pixels is 60, after that it looks bad, make it smaller
+	// so calculate what the multiplyer has to be in order to get it to 60 pixels
+	// but if its to make it bigger, cap it at 300%
+	let factor = 50 / width
+	return Math.min(factor * 100, 300) + '%';
+}
+
 // copy paste to resize the divs
 interact('#fusion')
 	.resizable({
@@ -237,19 +249,6 @@ interact('#fusion')
 
 				target.setAttribute('data-x', x);
 
-				// https://css-tricks.com/scaled-proportional-blocks-with-css-and-javascript/
-				// https://stackoverflow.com/questions/9333379/check-if-an-elements-content-is-overflowing
-				// let div = document.querySelector("#fusion");
-				// let overflow = div.scrollWidth > div.clientWidth;
-
-				// if (overflow) {
-				// 	let content = document.querySelector("#crafting");
-				// 	// debugger;
-				// 	scale = parseInt(window.getComputedStyle(div).width) /
-				// 		parseInt(window.getComputedStyle(content).width);
-				// 	console.log(scale)
-				// 	content.style.transform = `scale(${scale})`;
-				// }
 				let div = document.querySelector("#fusion");
 				let content = document.querySelector("#crafting");
 				// debugger;
