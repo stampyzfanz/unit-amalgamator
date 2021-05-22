@@ -19,8 +19,7 @@ async function load() {
 	}
 	loadVue();
 
-	// document.getElementById('fusion').style.height = document.getElementById('inventory').scrollHeight + 'px';
-	// console.log(document.getElementById('inventory').scrollHeight + 'px')
+	updateScale()
 }
 
 function save() {
@@ -238,6 +237,8 @@ window.onresize = () => {
 	if (parseInt(document.getElementById('fusion').style.width) > parseInt(window.getComputedStyle(document.body).width) - 150) {
 		document.getElementById('fusion').style.width = parseInt(window.getComputedStyle(document.body).width) - 150 + 'px';
 	}
+
+	updateScale()
 };
 
 let restrictSize = {
@@ -255,21 +256,17 @@ function updateScale(event) {
 	};
 	var target = event.target
 	var x = (parseFloat(target.getAttribute('data-x')) || 0)
-	var y = (parseFloat(target.getAttribute('data-y')) || 0)
+
+	console.log(event)
 
 	// update the element's style
 	let width = parseInt(window.getComputedStyle(document.body).width);
-	// debugger;
-	// (((width) - parseInt(div.style.width) - 5) / width * 100) + "%";
-	// target.style.width = ((parseInt(event.rect.width) - 5) / width * 100) + "%";
-	// target.style.width = (event.rect.width / width * 100) + "%";
-	target.style.width = event.rect.width + 'px';
+	if (event.rect) target.style.width = event.rect.width + 'px';
 
 	target.setAttribute('data-x', x);
 
 	let div = document.querySelector("#fusion");
 	let content = document.querySelector("#crafting");
-	// debugger;
 	// max 1, so it doesnt get any bigger than default
 	scale = Math.min(
 		parseInt(window.getComputedStyle(div).width) /
@@ -282,8 +279,6 @@ function updateScale(event) {
 	let inventory = document.querySelector("#inventory");
 	// make inventory the full size minus the fusion panel
 	inventory.style.width = (((width) - parseInt(div.style.width) - 5) / width * 100) + "%";
-	// console.log((((width) - parseInt(div.style.width) - 5) / width * 100) + "%");
-
 	// minus 15 just for padding and margins and things just in case
 }
 
