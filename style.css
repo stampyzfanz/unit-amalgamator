@@ -4,14 +4,15 @@
     /*min-width: 49.5%;*/
     /*max-width: 49.5%;*/
     /*width: 49.5%;*/
-    height: 85%;
-    min-height: 85%;
+    /* height: 90%; */
+    /* min-height: 85%; */
     column-span: 1;
     position: absolute;
     overflow-y: auto;
     overflow-x: auto;
     transition-duration: 0s;
     border-top: 1px solid #ccc;
+    width: 49.5%;
 }
 
 .left {
@@ -75,6 +76,9 @@
     box-sizing: border-box;
     touch-action: none;
     overflow: hidden;
+    border-right: 1px solid #ccc;
+    /* fill remaining space */
+    flex: 1;
 }
 
 /* https://css-tricks.com/scaled-proportional-blocks-with-css-and-javascript */
@@ -109,4 +113,8 @@ p {
 
 #inventory .box {
     margin-top: 7px;
+}
+
+[v-cloak] {
+    display: none;
 }

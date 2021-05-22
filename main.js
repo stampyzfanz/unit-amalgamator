@@ -18,6 +18,9 @@ async function load() {
 		};
 	}
 	loadVue();
+
+	// document.getElementById('fusion').style.height = document.getElementById('inventory').scrollHeight + 'px';
+	// console.log(document.getElementById('inventory').scrollHeight + 'px')
 }
 
 function save() {
@@ -220,7 +223,6 @@ function swapOperation() {
 }
 
 function unitAbbrevSize(text) {
-	debugger;
 	let tester = document.getElementById('widthTester');
 	tester.innerHTML = text;
 	let width = tester.offsetWidth;
@@ -231,6 +233,60 @@ function unitAbbrevSize(text) {
 	return Math.min(factor * 100, 300) + '%';
 }
 
+window.onresize = () => {
+	restrictSize.max.width = parseInt(window.getComputedStyle(document.body).width) - 150;
+	if (parseInt(document.getElementById('fusion').style.width) > parseInt(window.getComputedStyle(document.body).width) - 150) {
+		document.getElementById('fusion').style.width = parseInt(window.getComputedStyle(document.body).width) - 150 + 'px';
+	}
+};
+
+let restrictSize = {
+	min: {
+		width: 100,
+	},
+	max: {
+		width: parseInt(window.getComputedStyle(document.body).width) - 150,
+	}
+}
+
+function updateScale(event) {
+	event = event || {
+		target: document.getElementById('fusion')
+	};
+	var target = event.target
+	var x = (parseFloat(target.getAttribute('data-x')) || 0)
+	var y = (parseFloat(target.getAttribute('data-y')) || 0)
+
+	// update the element's style
+	let width = parseInt(window.getComputedStyle(document.body).width);
+	// debugger;
+	// (((width) - parseInt(div.style.width) - 5) / width * 100) + "%";
+	// target.style.width = ((parseInt(event.rect.width) - 5) / width * 100) + "%";
+	// target.style.width = (event.rect.width / width * 100) + "%";
+	target.style.width = event.rect.width + 'px';
+
+	target.setAttribute('data-x', x);
+
+	let div = document.querySelector("#fusion");
+	let content = document.querySelector("#crafting");
+	// debugger;
+	// max 1, so it doesnt get any bigger than default
+	scale = Math.min(
+		parseInt(window.getComputedStyle(div).width) /
+		parseInt(window.getComputedStyle(content).width),
+		1
+	);
+	content.style.transform = `translate(-50%, 0) scale(${scale})`;
+
+	// resize inv	
+	let inventory = document.querySelector("#inventory");
+	// make inventory the full size minus the fusion panel
+	inventory.style.width = (((width) - parseInt(div.style.width) - 5) / width * 100) + "%";
+	// console.log((((width) - parseInt(div.style.width) - 5) / width * 100) + "%");
+
+	// minus 15 just for padding and margins and things just in case
+}
+
 // copy paste to resize the divs
 interact('#fusion')
 	.resizable({
@@ -239,36 +295,7 @@ interact('#fusion')
 		},
 
 		listeners: {
-			move(event) {
-				var target = event.target
-				var x = (parseFloat(target.getAttribute('data-x')) || 0)
-				var y = (parseFloat(target.getAttribute('data-y')) || 0)
-
-				// update the element's style
-				target.style.width = event.rect.width + 'px'
-
-				target.setAttribute('data-x', x);
-
-				let div = document.querySelector("#fusion");
-				let content = document.querySelector("#crafting");
-				// debugger;
-				// max 1, so it doesnt get any bigger than default
-				scale = Math.min(
-					parseInt(window.getComputedStyle(div).width) /
-					parseInt(window.getComputedStyle(content).width),
-					1
-				);
-				content.style.transform = `translate(-50%, 0) scale(${scale})`;
-
-				// resize inv
-				let width = parseInt(window.getComputedStyle(document.body).width);
-				let inventory = document.querySelector("#inventory");
-				// make inventory the full size minus the fusion panel
-				inventory.style.width = (((width) - parseInt(div.style.width) - 5) / width * 100) + "%";
-				console.log((((width) - parseInt(div.style.width) - 5) / width * 100) + "%");
-
-				// minus 15 just for padding and margins and things just in case
-			}
+			move: updateScale
 		},
 		modifiers: [
 			// keep the edges inside the parent
@@ -277,14 +304,7 @@ interact('#fusion')
 			}),
 
 			// minimum size
-			interact.modifiers.restrictSize({
-				min: {
-					width: 100,
-				},
-				max: {
-					width: parseInt(window.getComputedStyle(document.body).width) - 150,
-				}
-			})
+			interact.modifiers.restrictSize(restrictSize)
 		],
 
 		inertia: true
