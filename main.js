@@ -156,9 +156,11 @@ function findProduct(a, b) {
 	}
 	if (a[1] == 'rad' && b[1] == 's' && player.operation == '/') {
 		player.product = units[44]; // angular velocity
+		return;
 	}
 	if (a[0] == 'Angular velocity' && b[1] == 's' && player.operation == '/') {
-		player.product = units[44]; // angular acceleration
+		player.product = units[45]; // angular acceleration
+		return;
 	}
 
 
@@ -190,6 +192,7 @@ function findProduct(a, b) {
 	if (Object.keys(product_base_units) == 0) {
 		// if obj is empty
 		player.product = units[7];
+		return;
 	}
 
 	for (let unit of units) {
@@ -209,6 +212,8 @@ function findProduct(a, b) {
 			return;
 		}
 	}
+
+	player.product = null;
 }
 
 function swapOperation() {
